@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 ENV MIRROR="debian.mirrors.ovh.net"
 
