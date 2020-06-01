@@ -27,6 +27,11 @@ RUN apt-get update \
     zlib1g-dev \
     libjemalloc-dev \
     imagemagick \
+    libglib2.0-0 \
+    libglib2.0-dev \
+    libpoppler-glib8 \
+    libheif-dev \
+    libvips-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # skip installing gem documentation
