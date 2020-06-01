@@ -118,8 +118,8 @@ RUN \
 
 
 RUN apt-get -y install wget
-# Add postgresql client
 
+# Add postgresql client
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
 
 RUN wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -127,11 +127,3 @@ RUN apt-key add ACCC4CF8.asc
 RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y install postgresql-12
-
-# Add AWS CLI
-RUN apt-get -u install unzip
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install
-
-
