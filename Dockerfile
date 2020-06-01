@@ -27,11 +27,6 @@ RUN apt-get update \
     zlib1g-dev \
     libjemalloc-dev \
     imagemagick \
-    libglib2.0-0 \
-    libglib2.0-dev \
-    libpoppler-glib8 \
-    libheif-dev \
-    libvips-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # skip installing gem documentation
@@ -106,7 +101,6 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update
 RUN apt-get install -y openssl libpq-dev build-essential libcurl4-openssl-dev software-properties-common
 
-
 RUN apt-get -y install wget
 
 # Add postgresql client
@@ -117,3 +111,34 @@ RUN apt-key add ACCC4CF8.asc
 RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y install postgresql-12
+
+# Add libvips
+RUN apt-get -y install pkg-config \
+    libgsf-1-dev \
+    glib-2.0-dev \
+    libexpat-dev \
+    librsvg2-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libtiff5-dev \
+    libexif-dev \
+    liblcms2-dev \
+    libxml2-dev \
+    libfftw3-dev \
+    libpoppler-glib-dev \
+  && cd /tmp \
+  && wget https://github.com/libvips/libvips/releases/download/v8.9.2/vips-8.9.2.tar.gz \
+  && tar xf vips-8.9.2.tar.gz \
+  && cd vips-8.9.2 \
+  && ./configure \
+  && make \
+  && make install \
+  && ldconfig \
+  && rm -rf /tmp/*
+
+# Cleanup
+RUN apt-get remove -y automake curl build-essential \
+  && apt-get autoremove -y \
+  && apt-get autoclean \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
